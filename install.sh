@@ -83,10 +83,11 @@ install_dependencies() {
 clone_project() {
     log_info "克隆项目..."
     
-    if [ -d "$INSTALL_DIR/research-workflow" ]; then
+    if [ -d "$INSTALL_DIR/research-workflow/.git" ]; then
         log_warn "已安装，更新中..."
         cd "$INSTALL_DIR/research-workflow"
-        git pull -q
+        git fetch -q origin 2>/dev/null || true
+        git reset --hard origin/main -q 2>/dev/null || git reset --hard origin/master -q 2>/dev/null || true
     else
         mkdir -p "$INSTALL_DIR"
         cd "$INSTALL_DIR"
